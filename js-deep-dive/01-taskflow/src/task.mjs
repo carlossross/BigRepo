@@ -55,8 +55,17 @@ export class Task {
     return `Task(${this.id ?? '?'}) :: ${this.label}`;
   }
 
-  execute() {
+  async execute() {
     console.log(`▶ Ejecutando ${this.describe()}`);
-    this.run();
+    // this.run();
+    try {
+      // Ejecutamos la función run (puede ser sync o async)
+      const result = await this.run();
+      console.log(`✔ Task(${this.id}) completada`, result);
+      return result;
+    } catch (err) {
+      console.log(`❌ Task(${this.id}) falló:`, err);
+      throw err;
+    }
   }
 }

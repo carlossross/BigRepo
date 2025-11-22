@@ -17,14 +17,43 @@ export function seedExampleTasks() {
   taskStore.addTask({
     label: 'Saludar al usuario',
     run: () => {
-      console.log('👋 Hola desde una tarea!');
+      console.log('👋 Hola desde una tarea síncrona!');
     },
   });
 
+  //   taskStore.addTask({
+  //     label: 'Mostrar fecha actual',
+  //     run: () => {
+  //       console.log('📅 Hoy es', new Date().toLocaleString());
+  //     },
+  //   });
+
+  // 2) Tarea asíncrona con Promesa
   taskStore.addTask({
-    label: 'Mostrar fecha actual',
+    label: 'Simular petición de API',
     run: () => {
-      console.log('📅 Hoy es', new Date().toLocaleString());
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          resolve('📡 Respuesta simulada de API');
+        }, 1000);
+      });
+    },
+  });
+
+  // 3) Async/Awai directo
+  taskStore.addTask({
+    label: 'Esperar 500ms',
+    run: async () => {
+      await new Promise((r) => setTimeout(r, 500));
+      return '⏱ 500ms completados';
+    },
+  });
+
+  // 4) Tarea que falla
+  taskStore.addTask({
+    label: 'Tarea com error',
+    run: () => {
+      throw new Error('Simulación de error');
     },
   });
 }
@@ -54,9 +83,9 @@ export function debugPrintTasks() {
  * Ejecuta todas las tareas del store.
  */
 
-export function runAllTasks() {
+export async function runAllTasks() {
   const tasks = taskStore.getTasks();
-  console.log('▶ Ejecutando todas las tareas...');
+  console.log('▶ Ejecutando todas las tareas ASYNC...');
   //   for (const task of tasks) {
   //     console.log(`\n▶ Tarea #${task.id}: ${task.label}`);
   //     task.run();
@@ -64,6 +93,12 @@ export function runAllTasks() {
 
   for (const task of tasks) {
     console.log(''); //Línea en blanco
-    task.execute();
+    //task.execute();
+    try {
+      await task.execute();
+    } catch {
+      // El error ya fue loggeado en execute, no repetimos
+    }
   }
+  console.log('\n🏁 Todas las tareas finalizadas');
 }
