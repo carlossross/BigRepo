@@ -1,0 +1,10 @@
+{
+  "name": "taskflow",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Projecto to practice deep JS",
+  "main": "src/cli.mjs",
+  "scripts": {
+    "start": "node src/cli.mjs"
+  }
+}
