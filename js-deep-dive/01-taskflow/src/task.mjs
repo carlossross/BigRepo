@@ -49,10 +49,22 @@ export class Task {
     this.run = run;
     this.createdAt = new Date();
     this.id = null;
+
+    // 🔴 Controlador de cancelación propio
+    this.controller = new AbortController();
+    this.signal = this.controller.signal;
   }
 
   describe() {
     return `Task(${this.id ?? '?'}) :: ${this.label}`;
+  }
+
+  // Método para cancelar desde afuera (scheduler, CLI, etc.)
+  abort(reason = 'Task aborted') {
+    if (!this.signal.aborted) {
+      console.log(`🚫 Abort solicitado para ${this.describe()}: ${reason}`);
+      this.controller.abort(reason);
+    }
   }
 
   async execute() {

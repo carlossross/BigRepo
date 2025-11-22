@@ -1,4 +1,5 @@
 import { createTaskStore } from './taskStore.mjs';
+import { abortableDelay } from './utils.mjs';
 
 console.log('Scheduler module evaluado...');
 
@@ -101,4 +102,40 @@ export async function runAllTasks() {
     }
   }
   console.log('\n🏁 Todas las tareas finalizadas');
+}
+
+export function seedCancelableTasksDemo() {
+  taskStore.clear();
+  taskStore.addTask({
+    label: 'Tarea larga cancelable (5s)',
+    run: async (signal) => {
+      console.log('⏳ Tarea larga inició (esperando 5s)...');
+      try {
+        await abortableDelay(5000, signal);
+        console.log('✅ Tarea larga terminó sin cancelación');
+        return 'completada';
+      } catch (err) {
+        console.log('⚠️ Tarea larga detectó cancelación:', err.message);
+        // Podemos considerar esto éxito desde la perspectiva de cancelación
+        return 'cancelada';
+      }
+    },
+  });
+}
+
+export function cancelTask(id) {
+  const task = taskStore.findById(id);
+  if (!task) {
+    console.log(`⚠️ No se encontró la tarea #${id} para cancelar`);
+    return;
+  }
+  task.abort(`Cancelada desde scheduler (#${id})`);
+}
+
+export function cancelAllTasks() {
+  const tasks = taskStore.getTasks();
+  console.log('🛑 Cancelando todas las tareas…');
+  for (const task of tasks) {
+    task.abort('Cancelada por cancelAllTasks()');
+  }
 }
