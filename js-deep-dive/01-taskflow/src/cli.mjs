@@ -13,4 +13,6 @@ seedExampleTasks();
 debugPrintTasks();
 
 // 3) Ejecutamos todas las tareas
-runAllTasks();
+//runAllTasks();
+// CLI acepta promesas sin necesidad de catch porque Node maneja el rejection si olvidamos.
+await runAllTasks();

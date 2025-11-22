@@ -103,4 +103,17 @@ Aquí crearemos un módulo que encapsula estado privado sin clases ni objetos li
   - Clases modernas como azúcar sobre prototipos.
   - Single evaluation de módulos que definen tipos.
 
+## Iteración 3 — Asincronía dentro de Task (async/await + Promesas)
+
+- Task.execute() ahora es async, permitiendo manejar funciones sync y async.
+- Se soportan tareas con Promesas, timeouts y funciones async/await.
+- scheduler.runAllTasks() ahora ejecuta tareas secuencialmente usando await.
+- Se agregó manejo de errores sin detener el flujo.
+- Se usa top‑level await desde cli.mjs.
+- Conceptos reforzados:
+- await solo acepta Promesas.
+- setTimeout no es async: se envuelve en una Promesa.
+- Diferencia entre macrotasks (setTimeout) y microtasks (Promesas).
+- Flujo secuencial asíncrono controlado.
+
 > Este README se irá actualizando en cada iteración, registrando aprendizaje real y decisiones de diseño como lo haría un ingeniero senior.
