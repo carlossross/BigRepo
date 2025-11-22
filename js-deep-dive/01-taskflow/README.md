@@ -92,4 +92,15 @@ Aquí crearemos un módulo que encapsula estado privado sin clases ni objetos li
   - Closures reales con estado mutando en el tiempo.
   - Single evaluation de módulos ESM con un “singleton” por módulo.
 
+## Iteración 2 — Task como tipo propio (prototipos y clases)
+
+- Se creó `Task` en `task.mjs` primero como function constructor + prototype.
+- Luego se refactorizó a `class Task` manteniendo el mismo contrato.
+- El `TaskStore` ahora almacena instancias de `Task` y asigna los `id`.
+- Conceptos reforzados:
+  - `new` y reglas de `this` en constructores.
+  - Prototype chain y métodos compartidos.
+  - Clases modernas como azúcar sobre prototipos.
+  - Single evaluation de módulos que definen tipos.
+
 > Este README se irá actualizando en cada iteración, registrando aprendizaje real y decisiones de diseño como lo haría un ingeniero senior.
