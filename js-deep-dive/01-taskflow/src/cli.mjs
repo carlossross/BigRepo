@@ -1,4 +1,4 @@
-console.log('TaskFlow CLI cargado');
+console.log('TaskFlow CLI cargado...');
 
 import {
   debugPrintTasks,

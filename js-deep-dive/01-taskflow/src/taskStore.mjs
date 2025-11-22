@@ -1,17 +1,25 @@
-console.log('TaskStore module evaluado');
+console.log('TaskStore module evaluado...');
 
+import { Task } from './task.mjs';
+
+/**
+ * Crea un store de tareas unsando closures
+ */
 export function createTaskStore() {
   // Estado privado (no importado directamente)
   const tasks = [];
   let lastId = 0;
 
   function addTask({ label, run }) {
-    const task = {
-      id: ++lastId,
-      label,
-      run,
-      createdAt: new Date(),
-    };
+    // const task = {
+    //   id: ++lastId,
+    //   label,
+    //   run,
+    //   createdAt: new Date(),
+    // };
+
+    const task = new Task(label, run);
+    task.id = ++lastId;
 
     tasks.push(task);
     return task;
