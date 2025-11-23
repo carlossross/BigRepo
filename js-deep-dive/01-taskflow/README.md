@@ -79,7 +79,7 @@ Aquí crearemos un módulo que encapsula estado privado sin clases ni objetos li
 
 ---
 
-## Iteración 1 — Task Store con closures
+## Iteración 2 — Task Store con closures
 
 - Implementado `createTaskStore` en `taskStore.mjs`.
 - Estado privado (`tasks`, `lastId`) encapsulado vía closures.
@@ -92,7 +92,7 @@ Aquí crearemos un módulo que encapsula estado privado sin clases ni objetos li
   - Closures reales con estado mutando en el tiempo.
   - Single evaluation de módulos ESM con un “singleton” por módulo.
 
-## Iteración 2 — Task como tipo propio (prototipos y clases)
+## Iteración 3 — Task como tipo propio (prototipos y clases)
 
 - Se creó `Task` en `task.mjs` primero como function constructor + prototype.
 - Luego se refactorizó a `class Task` manteniendo el mismo contrato.
@@ -103,7 +103,7 @@ Aquí crearemos un módulo que encapsula estado privado sin clases ni objetos li
   - Clases modernas como azúcar sobre prototipos.
   - Single evaluation de módulos que definen tipos.
 
-## Iteración 3 — Asincronía dentro de Task (async/await + Promesas)
+## Iteración 4 — Asincronía dentro de Task (async/await + Promesas)
 
 - Task.execute() ahora es async, permitiendo manejar funciones sync y async.
 - Se soportan tareas con Promesas, timeouts y funciones async/await.
@@ -115,5 +115,21 @@ Aquí crearemos un módulo que encapsula estado privado sin clases ni objetos li
 - setTimeout no es async: se envuelve en una Promesa.
 - Diferencia entre macrotasks (setTimeout) y microtasks (Promesas).
 - Flujo secuencial asíncrono controlado.
+
+## Iteración 5 — AbortController y tareas cancelables
+
+- Cada `Task` ahora tiene su propio `AbortController` y `signal`.
+- `Task.execute()` pasa la `signal` a `run(signal)` para que la tarea pueda reaccionar.
+- Se creó `abortableDelay(ms, signal)` para simular trabajo cancelable con `setTimeout`.
+- El `Scheduler` ahora puede:
+  - `cancelTask(id)` para cancelar una tarea específica.
+  - `cancelAllTasks()` para cancelar todas las tareas activas.
+- Se añadió una demo en CLI que:
+  - Inicia una tarea larga (5s).
+  - La cancela después de 1s.
+- Conceptos reforzados:
+  - Uso práctico de `AbortController` y `AbortSignal`.
+  - Patrón de construir operaciones “abortables” (delay cancelable).
+  - Coordinación entre asincronía, cancelación y logs.
 
 > Este README se irá actualizando en cada iteración, registrando aprendizaje real y decisiones de diseño como lo haría un ingeniero senior.
